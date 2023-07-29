@@ -1,1 +1,8 @@
 emotion_model.pkl filter=lfs diff=lfs merge=lfs -text
+df_angry.csv filter=lfs diff=lfs merge=lfs -text
+df_disgust.csv filter=lfs diff=lfs merge=lfs -text
+df_fear.csv filter=lfs diff=lfs merge=lfs -text
+df_happy.csv filter=lfs diff=lfs merge=lfs -text
+df_neutral.csv filter=lfs diff=lfs merge=lfs -text
+df_sad.csv filter=lfs diff=lfs merge=lfs -text
+df_surprise.csv filter=lfs diff=lfs merge=lfs -text
