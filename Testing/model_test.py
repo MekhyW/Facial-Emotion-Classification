@@ -15,10 +15,12 @@ def predict_emotion():
     global mesh_points, emotion_model
     if mesh_points is None:
         return None
-    nose_tip = mesh_points[4]
-    chin_tip = mesh_points[152]
+    nose_tip = mesh_points[4] 
+    forehead = mesh_points[151]
     mesh_norm = mesh_points - nose_tip
-    scale_factor = np.linalg.norm(chin_tip - nose_tip)
+    scale_factor = np.linalg.norm(forehead - nose_tip)
+    if np.isclose(scale_factor, 0):
+        scale_factor = 1e-6
     mesh_norm = np.divide(mesh_norm, scale_factor)
     landmarks_flat = mesh_norm.flatten()
     pred = emotion_model.predict([landmarks_flat])
