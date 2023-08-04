@@ -38,6 +38,7 @@ while True:
         emotion = predict_emotion()
         if emotion:
             cv2.putText(frame_facemesh, emotion, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            cv2.putText(empty, emotion, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
         for faceLms in results_mesh.multi_face_landmarks:
             mp_drawing.draw_landmarks(image=frame_facemesh, landmark_list=faceLms, landmark_drawing_spec=drawing_spec, connection_drawing_spec=drawing_spec)
             mp_drawing.draw_landmarks(image=empty, landmark_list=faceLms, landmark_drawing_spec=drawing_spec, connection_drawing_spec=drawing_spec)
