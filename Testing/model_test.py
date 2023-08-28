@@ -9,12 +9,12 @@ drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 face_mesh = mp_face_mes.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 mesh_points = None
 emotion_model = pickle.load(open('Testing/emotion_model.pkl', 'rb'))
-pca = joblib.load('Testing/pca_model.pkl')
+pca_model = joblib.load('Testing/pca_model.pkl')
 
 cap = cv2.VideoCapture(0)
 
 def predict_emotion():
-    global mesh_points, emotion_model
+    global mesh_points
     if mesh_points is None:
         return None
     nose_tip = mesh_points[4] 
@@ -25,11 +25,11 @@ def predict_emotion():
         scale_factor = 1e-6
     mesh_norm = np.divide(mesh_norm, scale_factor)
     landmarks_flat = mesh_norm.flatten()
-    landmarks_transformed = pca.transform([landmarks_flat])
+    landmarks_transformed = pca_model.transform([landmarks_flat])
     pred = emotion_model.predict_proba(landmarks_transformed)[0]
     pred_index = np.argmax(pred)
-    print(pred)
-    return str(pred_index)
+    labels = ['angry', 'disgusted', 'fear', 'happy', 'neutral', 'sad', 'surprised']
+    return labels[pred_index]
 
 while True:
     ret, frame = cap.read()
