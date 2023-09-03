@@ -15,6 +15,17 @@ mesh_points = None
 emotion_labels = ['angry', 'disgusted', 'fear', 'happy', 'neutral', 'sad', 'surprised']
 emotion_scores = [0]*7
 
+def transform_to_zero_one_numpy(arr):
+    if len(arr) == 0:
+        return arr
+    min_val = np.min(arr)
+    max_val = np.max(arr)
+    if min_val == max_val:
+        return np.zeros_like(arr)
+    value_range = max_val - min_val
+    transformed_arr = (arr - min_val) / value_range
+    return transformed_arr
+
 def predict_emotion():
     global mesh_points, emotion_labels, emotion_scores
     if mesh_points is None:
@@ -30,7 +41,10 @@ def predict_emotion():
     landmarks_transformed = pca_model.transform([landmarks_flat])
     pred = emotion_model.predict_proba(landmarks_transformed)[0]
     pred_index = np.argmax(pred)
-    emotion_scores = np.divide(pred, pred[pred_index])
+    emotion_scores_noisy = transform_to_zero_one_numpy(pred)
+    emotion_scores_noisy = np.multiply(emotion_scores_noisy, emotion_scores_noisy)
+    for score in range(len(emotion_scores)):
+        emotion_scores[score] = emotion_scores[score]*0.9 + emotion_scores_noisy[score]*0.1
     return emotion_labels[pred_index]
 
 while True:
@@ -51,5 +65,6 @@ while True:
             mp_drawing.draw_landmarks(image=empty, landmark_list=faceLms, landmark_drawing_spec=drawing_spec, connection_drawing_spec=drawing_spec)
     cv2.imshow('frame', frame_facemesh)
     cv2.imshow('facemesh-only', empty)
+    print(emotion_scores)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
