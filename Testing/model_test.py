@@ -12,8 +12,8 @@ pca_model = joblib.load('Testing/pca_model.pkl')
 cap = cv2.VideoCapture(0)
 
 mesh_points = None
-emotion_labels = ['angry', 'disgusted', 'fear', 'happy', 'neutral', 'sad', 'surprised']
-emotion_scores = [0]*7
+emotion_labels = ['angry', 'disgusted', 'happy', 'neutral', 'sad', 'surprised']
+emotion_scores = [0]*6
 
 def transform_to_zero_one_numpy(arr):
     if len(arr) == 0:
