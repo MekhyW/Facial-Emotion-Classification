@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.special import expit
 import cv2
 import mediapipe as mp
 import pickle
@@ -42,8 +43,8 @@ def predict_emotion():
     pred = emotion_model.predict_proba(landmarks_transformed)[0]
     pred_index = np.argmax(pred)
     emotion_scores_noisy = transform_to_zero_one_numpy(pred)
-    emotion_scores_noisy = np.multiply(emotion_scores_noisy, emotion_scores_noisy)
     for score in range(len(emotion_scores)):
+        emotion_scores_noisy[score] = expit(10 * (emotion_scores_noisy[score] - 0.5))
         emotion_scores[score] = emotion_scores[score]*0.9 + emotion_scores_noisy[score]*0.1
     return emotion_labels[pred_index]
 
@@ -65,6 +66,7 @@ while True:
             mp_drawing.draw_landmarks(image=empty, landmark_list=faceLms, landmark_drawing_spec=drawing_spec, connection_drawing_spec=drawing_spec)
     cv2.imshow('frame', frame_facemesh)
     cv2.imshow('facemesh-only', empty)
-    print(emotion_scores)
+    emotion_scores_rounded = [round(score, 2) for score in emotion_scores]
+    print(emotion_scores_rounded)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
