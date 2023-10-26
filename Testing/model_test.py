@@ -41,11 +41,11 @@ def predict_emotion():
     landmarks_flat = mesh_norm.flatten()
     landmarks_transformed = pca_model.transform([landmarks_flat])
     pred = emotion_model.predict_proba(landmarks_transformed)[0]
-    pred_index = np.argmax(pred)
     emotion_scores_noisy = transform_to_zero_one_numpy(pred)
     for score in range(len(emotion_scores)):
         emotion_scores_noisy[score] = expit(10 * (emotion_scores_noisy[score] - 0.5))
         emotion_scores[score] = emotion_scores[score]*0.9 + emotion_scores_noisy[score]*0.1
+    pred_index = np.argmax(emotion_scores)
     return emotion_labels[pred_index]
 
 while True:
