@@ -12,7 +12,7 @@ mp_drawing = mp.solutions.drawing_utils
 drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 face_mesh = mp_face_mes.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
-frame = cv2.imread('GNN/a.jpg')
+frame = cv2.imread('GNN/a.jpg') # read the image *** change the path to your image
 H, W, _ = frame.shape
 rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 results_mesh = face_mesh.process(rgb_image)
@@ -49,10 +49,40 @@ for edge in FACEMESH_TESSELATION:
         vertices.append(pointB_index)
         graph.add_node(pointB_index)
 
-print(len(vertices))
-print(len(edges))
-print(len(distances))
+print("len vertices: ",len(vertices))
+print("len edges: ",len(edges))
+print("len distances: ",len(distances))
 
 pos = nx.spring_layout(graph)
 nx.draw(graph, pos, with_labels=True, node_size=700, node_color='skyblue', font_size=8, font_color='black', font_weight='bold', edge_color='gray', linewidths=1, alpha=0.7)
 plt.show()
+#print(vertices)
+# print all neighbors of vertex 9
+print("neighbors of 9: ",list(graph.neighbors(9)))
+
+
+# transform the list of edges in a adjacency matrix
+adjacency_matrix = np.zeros((len(vertices), len(vertices)))
+for edge in edges:
+    adjacency_matrix[edge[0]][edge[1]] = 1
+    adjacency_matrix[edge[1]][edge[0]] = 1
+
+print("Matriz de adjacência: ",adjacency_matrix)
+
+
+# using the adjacency matrix find the neighbors of the vertex 9
+neighbors = []
+for i in range(len(adjacency_matrix)):
+    if adjacency_matrix[9][i] == 1:
+        # add the index of the neighbor
+        neighbors.append(i)
+print("Vizinhos de 9 pela matriz adjacência: ",neighbors)
+
+# save the adjacency matrix in a file
+np.savetxt('GNN/adjacency_matrix.csv', adjacency_matrix, delimiter=',')
+# save the vertices in a file
+np.savetxt('GNN/vertices.csv', vertices, delimiter=',')
+# save the edges in a file
+np.savetxt('GNN/edges.csv', edges, delimiter=',')
+# save the distances in a file
+np.savetxt('GNN/distances.csv', distances, delimiter=',')
