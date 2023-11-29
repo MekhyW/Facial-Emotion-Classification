@@ -5,3 +5,17 @@
 *pkl
 *npz
 *json
+/gnn
+/angry
+/face_angry
+/face_happy
+/face_neutral
+/face_sad
+/face_surprised
+/face_disgusted
+/angry_meshpoints
+/happy_meshpoints
+/neutral_meshpoints
+/sad_meshpoints
+/surprised_meshpoints
+/disgusted_meshpoints
