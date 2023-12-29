@@ -9,6 +9,14 @@ Using the state-of-the-art Google Mediapipe facial landmark detection model, we 
 
 The dataset used is a combination of the FER-2013 dataset and other public materials. It can be found at https://kaggle.com/datasets/669f5ba44ea30e40a7a42fb066bfa0cb89ca843deee526d633b4803014a49912
 
+### Augmentation
+
+Each folder of the dataset can be individually augmented using the augment.py script, in order to increase the balance and total number of samples. It uses the Albumentations library to randomly apply the following spatial-level transformations:
+- GridDistortion 
+- OpticalDistortion
+- HorizontalFlip
+
+
 ### Approach 1 - PCA and SVM
 
 The distances from each point in each face mesh to a fixed point are obtained, normalized and saved to intermediate files. Then, Principal Component Analysis is used to reduce the dimensionality of the data, and the resulting data is used to train a the final model.
@@ -40,6 +48,11 @@ The normalized X,Y coordinates of each point in each face mesh are obtained and 
     ├── face_sad
     └── face_surprised
 
+    ```
+
+4. If desired, modify the global variables of augment.py and run the script to augment a folder of the dataset
+    ```sh
+    python augment.py
     ```
 
 ## Usage for approach 1
