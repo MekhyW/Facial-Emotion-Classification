@@ -67,5 +67,14 @@ The normalized X,Y coordinates of each point in each face mesh are obtained and 
 2. Run model_test_gnn.ipynb to train the model and test it
 
 
+## Eye Closeness Recognition
 
+For an additional layer of interaction, a separate model for eye closeness recognition was also trained, using a subset of the dataset. It is a Logistic Regression model trained on the average ratio between eyelid width and height.
 
+To use it, populate the folders:
+```sh
+    Eye Closeness
+    ├── eye_closed
+    ├── eye_open
+```
+with images of eyes, run the data.ipynb notebook to generate the generate a csv file with numerical features, and then run the logreg.ipynb notebook to train the model and test it.
