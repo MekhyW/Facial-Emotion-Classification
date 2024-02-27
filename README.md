@@ -69,12 +69,19 @@ The normalized X,Y coordinates of each point in each face mesh are obtained and 
 
 ## Eye Closeness Recognition
 
-For an additional layer of interaction, a separate model for eye closeness recognition was also trained, using a subset of the dataset. It is a Logistic Regression model trained on the average ratio between eyelid width and height.
+For an additional layer of interaction, a separate model for eye closeness recognition was also trained, using a subset of the dataset. It is a LogisticAT ordinal classification model trained on 4 labels, using two features: the ratio between eyelid width and height and the visible area of the eye sclera.
+
+### Usage
 
 To use it, populate the folders:
 ```sh
     Eye Closeness
     ├── eye_closed
+    ├── eye_narrowed
     ├── eye_open
+    ├── eye_wide
 ```
-with images of eyes, run the data.ipynb notebook to generate the generate a csv file with numerical features, and then run the logreg.ipynb notebook to train the model and test it.
+
+Run data.ipynb notebook to generate the generate a csv file with numerical features, and then run the classifier.ipynb notebook to train the model and test it. 
+
+NOTE: The logreg.ipynb notebook is a deprecated version of the pipeline trained on 2 labels
