@@ -1,6 +1,6 @@
 # Facial-Emotion-Recognition
 Very fast and accurate classification model for facial expressions, using Mediapipe.
-Also includes a model for eye closeness recognition.
+Also includes models for eye closeness and eye gaze recognition.
 
 ## Project Description
 
@@ -78,13 +78,39 @@ The "face_landmarker_v2_with_blendshapes" model is used to extract the blendshap
 1. Run Blendshapes.ipynb to generate the blendshapes features of the faces
 2. Run Model.ipynb to train the model and test it
 
-## Eye Closeness Recognition
+## Eye Gaze and Closeness
 
-For an additional layer of interaction, a separate model for eye closeness recognition was also trained, using a subset of the dataset. It is a LogisticAT ordinal classification model trained on 4 labels, using two features: the ratio between eyelid width and height and the visible area of the eye sclera.
+For an additional layer of interaction, two separate eye-focused models were also trained: 
+
+### Gaze
+
+- Regression model that predicts the x and y coordinates of the gaze point.
+- Uses all facial landmarks as features.
+- Trained on the entire dataset, with a 90/10 train/test split.
+- Final model is a BayesianRidge model.
+- Cannot be used for each eye separately.
+
+### Closeness
+
+- Classification model that predicts between 4 labels (eye_open, eye_closed, eye_narrowed, eye_wide)
+- Uses two features: the ratio between eyelid width and height and the visible area of the eye sclera.
+- Trained on a custom subset of the dataset.
+- Final model is a LogisticAT ordinal classification model.
+- Can be used for each eye separately. 
 
 ### Usage
 
-To use it, populate the folders:
+For eye gaze:
+
+0. cd into Gaze folder
+1. Run ground_truth.ipynb to generate the ground truth of the eye gaze
+2. Run landmarks.ipynb to generate the landmarks of the faces
+3. Run model.ipynb to train the model and test it
+
+For eye closeness:
+
+0. cd into Eye Closeness folder
+1. Populate the folders:
 ```sh
     Eye Closeness
     ├── eye_closed
@@ -92,7 +118,7 @@ To use it, populate the folders:
     ├── eye_open
     ├── eye_wide
 ```
+2. Run data.ipynb notebook to generate the generate a csv file with numerical features
+3. Run the classifier.ipynb notebook to train the model and test it
 
-Run data.ipynb notebook to generate the generate a csv file with numerical features, and then run the classifier.ipynb notebook to train the model and test it. 
-
-NOTE: The logreg.ipynb notebook is a deprecated version of the pipeline trained on 2 labels
+NOTE: The logreg.ipynb notebook is a deprecated version of the pipeline. It is kept for reference purposes only.
