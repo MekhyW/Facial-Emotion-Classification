@@ -78,38 +78,43 @@ The "face_landmarker_v2_with_blendshapes" model is used to extract the blendshap
 1. Run Blendshapes.ipynb to generate the blendshapes features of the faces
 2. Run Model.ipynb to train the model and test it
 
-## Eye Gaze and Closeness
+## Eye Gaze, Eye Closeness and Mouth Closeness
 
-For an additional layer of interaction, two separate eye-focused models were also trained: 
+For an additional layer of interaction, three separate smaller models were also trained: 
 
 ### Gaze
 
+- Useful for gaze tracking and attention detection.
 - Regression model that predicts the x and y coordinates of the gaze point.
-- Uses all facial landmarks as features.
 - Trained on the entire dataset, with a 90/10 train/test split.
 - Final model is a BayesianRidge model.
 - Cannot be used for each eye separately.
 
-### Closeness
+### Eye Closeness
 
+- Useful for detecting blinks and drowsiness.
 - Classification model that predicts between 4 labels (eye_open, eye_closed, eye_narrowed, eye_wide)
-- Uses two features: the ratio between eyelid width and height and the visible area of the eye sclera.
 - Trained on a custom subset of the dataset.
 - Final model is a LogisticAT ordinal classification model.
-- Can be used for each eye separately. 
+- Can be used for each eye separately.
+
+### Mouth Closeness
+
+- Useful for detecting speech.
+- Classification model that predicts between 2 labels (mouth_open, mouth_closed)
+- Trained on a custom subset of the dataset.
+- Final model is a SVM model.
 
 ### Usage
 
 For eye gaze:
 
-0. cd into Gaze folder
 1. Run ground_truth.ipynb to generate the ground truth of the eye gaze
 2. Run landmarks.ipynb to generate the landmarks of the faces
 3. Run model.ipynb to train the model and test it
 
 For eye closeness:
 
-0. cd into Eye Closeness folder
 1. Populate the folders:
 ```sh
     Eye Closeness
@@ -117,6 +122,17 @@ For eye closeness:
     ├── eye_narrowed
     ├── eye_open
     ├── eye_wide
+```
+2. Run data.ipynb notebook to generate the generate a csv file with numerical features
+3. Run the classifier.ipynb notebook to train the model and test it
+
+For mouth closeness:
+
+1. Populate the folders:
+```sh
+    Mouth Closeness
+    ├── mouth_closed
+    ├── mouth_open
 ```
 2. Run data.ipynb notebook to generate the generate a csv file with numerical features
 3. Run the classifier.ipynb notebook to train the model and test it
