@@ -95,7 +95,7 @@ For an additional layer of interaction, three separate smaller models were also 
 - Useful for detecting blinks and drowsiness.
 - Classification model that predicts between 4 labels (eye_open, eye_closed, eye_narrowed, eye_wide)
 - Trained on a custom subset of the dataset.
-- Final model is a LogisticAT ordinal classification model.
+- Final model is a SVC model with a Polynomial kernel of degree 3.
 - Can be used for each eye separately.
 
 ### Mouth Closeness
